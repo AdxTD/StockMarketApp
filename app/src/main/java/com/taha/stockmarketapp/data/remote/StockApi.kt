@@ -1,5 +1,6 @@
 package com.taha.stockmarketapp.data.remote
 
+import com.taha.stockmarketapp.data.remote.dto.CompanyInfoDto
 import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,11 +17,11 @@ interface StockApi {
         @Query("apikey") apiKey: String = API_KEY
     ): ResponseBody
 
-    /*@GET("query?function=OVERVIEW")
+    @GET("query?function=OVERVIEW")
     suspend fun getCompanyInfo(
         @Query("symbol") symbol: String,
         @Query("apikey") apiKey: String = API_KEY
-    ): CompanyInfoDto*/
+    ): CompanyInfoDto
 
     companion object {
         const val API_KEY = "G1USXWKX272RK4BP"

@@ -34,7 +34,7 @@ fun CompanyListingsScreen(
         OutlinedTextField(
             value = state.searchQuery,
             onValueChange = {
-            viewModel.onEvent(CompanyListingsEvent.OnSearchQueryChange(it))
+                viewModel.onEvent(CompanyListingsEvent.OnSearchQueryChange(it))
             },
             modifier = Modifier
                 .padding(16.dp)
@@ -54,7 +54,10 @@ fun CompanyListingsScreen(
                     val company = state.companies[i]
                     CompanyItem(
                         company = company,
-                        modifier = Modifier.fillMaxWidth().clickable {
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .clickable {
                             //TODO: Navigate to details screen
                         }
                     )

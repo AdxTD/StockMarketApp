@@ -2,6 +2,7 @@ package com.taha.stockmarketapp.di
 
 import com.taha.stockmarketapp.data.csv.CSVParser
 import com.taha.stockmarketapp.data.csv.CompanyListingsParser
+import com.taha.stockmarketapp.data.csv.IntradayInfoParser
 import com.taha.stockmarketapp.data.repository.StockRepositoryImpl
 import com.taha.stockmarketapp.domain.model.CompanyListing
 import com.taha.stockmarketapp.domain.repository.StockRepository
@@ -20,6 +21,12 @@ abstract class RepositoryModule {
     abstract fun bindCompanyListingsParser(
         companyListingsParser: CompanyListingsParser
     ): CSVParser<CompanyListing>
+
+    @Binds
+    @Singleton
+    abstract fun bindIntradayInfoParser(
+        intradayInfoParser: IntradayInfoParser
+    ): CSVParser<IntradayInfoParser>
 
     @Binds
     @Singleton

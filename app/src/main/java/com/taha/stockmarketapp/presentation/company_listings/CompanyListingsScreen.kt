@@ -17,6 +17,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
+import com.ramcosta.composedestinations.generated.destinations.CompanyInfoScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
@@ -58,7 +59,9 @@ fun CompanyListingsScreen(
                             .fillMaxWidth()
                             .padding(8.dp)
                             .clickable {
-                            //TODO: Navigate to details screen
+                                navigator.navigate(
+                                    CompanyInfoScreenDestination(company.symbol)
+                                )
                         }
                     )
                     if(i < state.companies.size){

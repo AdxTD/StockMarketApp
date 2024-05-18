@@ -1,7 +1,5 @@
 package com.taha.stockmarketapp.data.csv
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.opencsv.CSVReader
 import com.taha.stockmarketapp.data.mapper.toIntradayInfo
 import com.taha.stockmarketapp.data.remote.dto.IntradayInfoDto

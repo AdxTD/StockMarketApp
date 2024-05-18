@@ -91,7 +91,7 @@ fun CompanyInfoScreen(
                     fontSize = 12.sp,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(128.dp))
                 StockChart(state.stocksInfo, modifier = Modifier
                     .fillMaxWidth()
                     .height(250.dp)

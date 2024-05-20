@@ -74,7 +74,10 @@ class StockRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getIntradayInfo(symbol: String): Resource<List<IntradayInfo>> {
+    override suspend fun getIntradayInfo(
+        fetchFromRemote: Boolean,
+        symbol: String
+    ): Resource<List<IntradayInfo>> {
         return try {
             val response = api.getIntradayInfo(symbol = symbol)
             val data = intradayInfoParser.parse(response.byteStream())
@@ -90,7 +93,10 @@ class StockRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCompanyInfo(symbol: String): Resource<CompanyInfo> {
+    override suspend fun getCompanyInfo(
+        fetchFromRemote: Boolean,
+        symbol: String
+    ): Resource<CompanyInfo> {
         return try {
             val response = api.getCompanyInfo(symbol = symbol)
             Resource.Success(response.toCompanyInfo())

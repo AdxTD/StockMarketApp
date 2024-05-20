@@ -10,15 +10,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.time.DayOfWeek
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class IntradayInfoParser @Inject constructor(): CSVParser<IntradayInfo>{
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override suspend fun parse(stream: InputStream): List<IntradayInfo> {
         val csvReader = CSVReader(InputStreamReader(stream))
+        val dayOfMonth = when (LocalDate.now().dayOfWeek) {
+            DayOfWeek.MONDAY -> LocalDate.now().minusDays(3).dayOfMonth
+            DayOfWeek.SUNDAY -> LocalDate.now().minusDays(2).dayOfMonth
+            else -> LocalDate.now().minusDays(1).dayOfMonth
+        }
         return withContext(Dispatchers.IO) {
             csvReader
                 .readAll()
@@ -32,7 +38,7 @@ class IntradayInfoParser @Inject constructor(): CSVParser<IntradayInfo>{
                     ).toIntradayInfo()
                 }
                 .filter {
-                    it.date.dayOfMonth == LocalDate.now().minusDays(1).dayOfMonth
+                    it.date.dayOfMonth == dayOfMonth
                 }
                 .sortedBy {
                     it.date.hour

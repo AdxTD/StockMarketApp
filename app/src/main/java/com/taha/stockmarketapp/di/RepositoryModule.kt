@@ -5,6 +5,7 @@ import com.taha.stockmarketapp.data.csv.CompanyListingsParser
 import com.taha.stockmarketapp.data.csv.IntradayInfoParser
 import com.taha.stockmarketapp.data.repository.StockRepositoryImpl
 import com.taha.stockmarketapp.domain.model.CompanyListing
+import com.taha.stockmarketapp.domain.model.IntradayInfo
 import com.taha.stockmarketapp.domain.repository.StockRepository
 import dagger.Binds
 import dagger.Module
@@ -26,7 +27,7 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindIntradayInfoParser(
         intradayInfoParser: IntradayInfoParser
-    ): CSVParser<IntradayInfoParser>
+    ): CSVParser<IntradayInfo>
 
     @Binds
     @Singleton

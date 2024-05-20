@@ -1,13 +1,16 @@
 package com.taha.stockmarketapp.presentation.company_info
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -95,8 +98,20 @@ fun CompanyInfoScreen(
                     .align(Alignment.CenterHorizontally)
                 )
             }
+        }
+    }
 
-
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        if(state.isLoading) {
+            CircularProgressIndicator()
+        } else if (state.error != null) {
+            Text(
+                text = state.error,
+                color = MaterialTheme.colors.error
+            )
         }
     }
 }

@@ -8,9 +8,9 @@ import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
     primary = Color.Green,
-    background = Color.Blue,
+    background = DarkBlue,
     onPrimary = Color.DarkGray,
-    onBackground = Color.White
+    onBackground = TextWhite
 )
 
 @Composable

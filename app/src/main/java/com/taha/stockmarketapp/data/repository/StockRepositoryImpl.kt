@@ -2,10 +2,13 @@ package com.taha.stockmarketapp.data.repository
 
 import com.taha.stockmarketapp.data.csv.CSVParser
 import com.taha.stockmarketapp.data.local.StockDatabase
+import com.taha.stockmarketapp.data.mapper.toCompanyInfo
 import com.taha.stockmarketapp.data.mapper.toCompanyListing
 import com.taha.stockmarketapp.data.mapper.toCompanyListingEntity
 import com.taha.stockmarketapp.data.remote.StockApi
+import com.taha.stockmarketapp.domain.model.CompanyInfo
 import com.taha.stockmarketapp.domain.model.CompanyListing
+import com.taha.stockmarketapp.domain.model.IntradayInfo
 import com.taha.stockmarketapp.domain.repository.StockRepository
 import com.taha.stockmarketapp.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +22,8 @@ import javax.inject.Singleton
 class StockRepositoryImpl @Inject constructor(
     private val api: StockApi,
     private val db: StockDatabase,
-    private val companyListingsParser: CSVParser<CompanyListing>
+    private val companyListingsParser: CSVParser<CompanyListing>,
+    private val intradayInfoParser: CSVParser<IntradayInfo>
 ) : StockRepository{
 
     private val dao = db.dao
@@ -69,4 +73,37 @@ class StockRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun getIntradayInfo(symbol: String): Resource<List<IntradayInfo>> {
+        return try {
+            val response = api.getIntradayInfo(symbol = symbol)
+            val data = intradayInfoParser.parse(response.byteStream())
+            Resource.Success(data)
+        } catch (exc: IOException){
+            Resource.Error(
+                message = exc.message ?: "Couldn't reach the server! Please check your internet connection."
+            )
+        } catch (exc: HttpException){
+            Resource.Error(
+                message = exc.message ?: "Unexpected error occurred!"
+            )
+        }
+    }
+
+    override suspend fun getCompanyInfo(symbol: String): Resource<CompanyInfo> {
+        return try {
+            val response = api.getCompanyInfo(symbol = symbol)
+            Resource.Success(response.toCompanyInfo())
+        } catch (exc: IOException){
+            Resource.Error(
+                message = exc.message ?: "Couldn't reach the server! Please check your internet connection."
+            )
+        } catch (exc: HttpException){
+            Resource.Error(
+                message = exc.message ?: "Unexpected error occurred!"
+            )
+        }
+    }
+
+
 }

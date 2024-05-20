@@ -1,7 +1,9 @@
 package com.taha.stockmarketapp.data.repository
 
+import com.taha.stockmarketapp.data.csv.CSVParser
 import com.taha.stockmarketapp.data.local.StockDatabase
 import com.taha.stockmarketapp.data.mapper.toCompanyListing
+import com.taha.stockmarketapp.data.mapper.toCompanyListingEntity
 import com.taha.stockmarketapp.data.remote.StockApi
 import com.taha.stockmarketapp.domain.model.CompanyListing
 import com.taha.stockmarketapp.domain.repository.StockRepository
@@ -16,7 +18,8 @@ import javax.inject.Singleton
 @Singleton
 class StockRepositoryImpl @Inject constructor(
     private val api: StockApi,
-    private val db: StockDatabase
+    private val db: StockDatabase,
+    private val companyListingsParser: CSVParser<CompanyListing>
 ) : StockRepository{
 
     private val dao = db.dao
@@ -41,7 +44,7 @@ class StockRepositoryImpl @Inject constructor(
 
             val remoteListings = try {
                 val response = api.getListings()
-                //companyListingsParser.parse(response.byteStream())
+                companyListingsParser.parse(response.byteStream())
             } catch(e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load data"))
@@ -54,9 +57,9 @@ class StockRepositoryImpl @Inject constructor(
 
             remoteListings?.let { listings ->
                 dao.clearCompanyListings()
-                /*dao.insertCompanyListings(
+                dao.insertCompanyListings(
                     listings.map { it.toCompanyListingEntity() }
-                )*/
+                )
                 emit(Resource.Success(
                     data = dao
                         .searchCompanyListing("")

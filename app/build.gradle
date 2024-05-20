@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.taha.stockmarketapp"
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"

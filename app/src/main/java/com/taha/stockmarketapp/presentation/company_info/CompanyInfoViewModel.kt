@@ -10,7 +10,6 @@ import com.taha.stockmarketapp.domain.repository.StockRepository
 import com.taha.stockmarketapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
@@ -23,7 +22,7 @@ class CompanyInfoViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val symbol = savedStateHandle.get<String>("Symbol") ?: return@launch
+            val symbol = savedStateHandle.get<String>("symbol") ?: return@launch
             state = state.copy(
                 isLoading = true
             )
